@@ -7,6 +7,10 @@ let score = 20;
 // Initial High score
 let highScore = 0;
 
+const displayMessage = function (message) {
+  document.querySelector(".message").textContent = message;
+};
+
 // When the guess is wrong
 function updateScore() {
   if (score > 0) score -= 1;
@@ -26,11 +30,11 @@ document.querySelector(".check").addEventListener("click", function () {
 
   // When there is no input
   if (!guess) {
-    document.querySelector(".message").textContent = "⛔️ No Number!";
+    displayMessage("⛔️ No Number!");
   }
   // When player wins
   else if (guess === secretNumber) {
-    document.querySelector(".message").textContent = "🎉 Correct Number!";
+    displayMessage("🎉 Correct Number!");
     document.querySelector("body").style.backgroundColor = "#60b347";
     document.querySelector(".number").textContent = secretNumber;
     document.querySelector(".number").style.width = "30rem";
@@ -40,20 +44,13 @@ document.querySelector(".check").addEventListener("click", function () {
   else if (guess !== secretNumber) {
     // When the player has more turns
     if (score > 1) {
-      // When guess is too low
-      if (guess < secretNumber) {
-        document.querySelector(".message").textContent = "📉 Too Low!";
-        updateScore();
-      }
-      // When guess is too high
-      else {
-        document.querySelector(".message").textContent = "📈 Too High!";
-        updateScore();
-      }
+      // When guess is wrong
+      displayMessage(guess > secretNumber ? "📈 Too High!" : "📉 Too Low!");
+      updateScore();
     }
     // When the player loses the game
     else {
-      document.querySelector(".message").textContent = "💥 You lost the game!";
+      displayMessage("💥 You lost the game!");
       updateScore();
     }
   }
@@ -65,7 +62,7 @@ document.querySelector(".again").addEventListener("click", function () {
   score = 20;
 
   document.querySelector(".guess").value = "";
-  document.querySelector(".message").textContent = "Start guessing...";
+  displayMessage("Start guessing...");
   document.querySelector(".number").textContent = "?";
   document.querySelector(".number").style.width = "15rem";
   document.querySelector("body").style.backgroundColor = "#222";
